@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.musicapp.databinding.ActivityMainBinding
+import com.google.android.material.slider.Slider
 import java.util.Locale
 import java.util.Timer
 import java.util.TimerTask
@@ -16,6 +17,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var mediaPlayer: MediaPlayer
     private var isPlaying = true
+    private var isUserChanged = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -81,6 +83,21 @@ class MainActivity : AppCompatActivity() {
         binding.btnGoAfter.setOnClickListener {
             goAfterMusic()
         }
+
+        binding.sliderMain.addOnChangeListener { slider, value, fromUser ->
+            binding.txtLeft.text = millisToString(value.toLong())
+            isUserChanged = fromUser
+        }
+        binding.sliderMain.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
+            override fun onStartTrackingTouch(slider: Slider) {
+
+            }
+
+            override fun onStopTrackingTouch(slider: Slider) {
+                mediaPlayer.seekTo(slider.value.toInt())
+            }
+
+        })
 
     }
 
