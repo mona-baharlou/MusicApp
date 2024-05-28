@@ -1,5 +1,7 @@
 package com.example.musicapp
 
+import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -9,22 +11,74 @@ import com.example.musicapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var mediaPlayer: MediaPlayer
+    private var isPlaying = true
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
-        //enableEdgeToEdge()
         setContentView(binding.root)
-        /*ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }*/
 
+        prepareMusic()
         setButtonClicks()
+    }
+
+    private fun prepareMusic() {
+        mediaPlayer = MediaPlayer.create(
+            this,
+            R.raw.music_file
+            //Uri.parse("") //get music from internet
+        )
+        mediaPlayer.start()
+        isPlaying = true
+        binding.btnPlayPause.setImageResource(R.drawable.ic_pause)
+
     }
 
     private fun setButtonClicks() {
 
+        binding.btnPlayPause.setOnClickListener {
+            configureMusic()
+        }
+
+        binding.btnGoBefore.setOnClickListener {
+            goBeforeMusic()
+        }
+
+
+        binding.btnVolumeOnOff.setOnClickListener {
+            configureVolume()
+        }
+
+
+        binding.btnGoAfter.setOnClickListener {
+            goAfterMusic()
+        }
+
+    }
+
+    private fun goBeforeMusic() {
+
+    }
+
+    private fun configureVolume() {
+
+    }
+
+    private fun goAfterMusic() {
+
+    }
+
+    private fun configureMusic() {
+        if (isPlaying) {
+            mediaPlayer.pause()
+            isPlaying = false
+            binding.btnPlayPause.setImageResource(R.drawable.ic_play)
+        } else {
+            mediaPlayer.start()
+            isPlaying = true
+            binding.btnPlayPause.setImageResource(R.drawable.ic_pause)
+
+        }
     }
 }
