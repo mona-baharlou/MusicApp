@@ -41,7 +41,7 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Negine Ghalbami"
+            android:text="Light Music"
             android:textColor="@color/white"
             android:textSize="32sp" />
 
@@ -50,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Majid Razavi"
+            android:text="Raphael Novarina"
             android:textColor="@color/white_text"
             android:textSize="18sp" />
     </LinearLayout>
