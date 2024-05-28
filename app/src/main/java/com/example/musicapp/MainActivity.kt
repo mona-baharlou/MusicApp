@@ -1,5 +1,7 @@
 package com.example.musicapp
 
+import android.content.Context
+import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
@@ -18,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mediaPlayer: MediaPlayer
     private var isPlaying = true
     private var isUserChanged = false
+    private var isMute = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -46,8 +49,10 @@ class MainActivity : AppCompatActivity() {
             object : TimerTask() {
                 override fun run() {
                     runOnUiThread {
-                        // binding.txtLeft.text = millisToString(mediaPlayer.currentPosition.toLong())
-                        binding.sliderMain.value = mediaPlayer.currentPosition.toFloat()
+                        if (!isUserChanged) {
+                            // binding.txtLeft.text = millisToString(mediaPlayer.currentPosition.toLong())
+                            binding.sliderMain.value = mediaPlayer.currentPosition.toFloat()
+                        }
                     }
                 }
 
@@ -103,13 +108,38 @@ class MainActivity : AppCompatActivity() {
 
     private fun goBeforeMusic() {
 
+        val now = mediaPlayer.currentPosition
+        val newValue = now - 15000 //15000 millisec == 15 sec
+        mediaPlayer.seekTo(newValue)
+
     }
 
     private fun configureVolume() {
 
+        val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+
+        if (isMute) {
+
+            audioManager.adjustVolume(AudioManager.ADJUST_MUTE, AudioManager.FLAG_SHOW_UI)
+            binding.btnVolumeOnOff.setImageResource(R.drawable.ic_volume_on)
+            isMute = false
+
+        } else {
+            audioManager.adjustVolume(
+                AudioManager.ADJUST_MUTE,
+                AudioManager.FLAG_SHOW_UI
+            )
+
+            binding.btnVolumeOnOff.setImageResource(R.drawable.ic_volume_off)
+            isMute = true
+
+        }
     }
 
     private fun goAfterMusic() {
+        val now = mediaPlayer.currentPosition
+        val newValue = now + 15000 //15000 millisec == 15 sec
+        mediaPlayer.seekTo(newValue)
 
     }
 
