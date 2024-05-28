@@ -14,6 +14,7 @@ import com.google.android.material.slider.Slider
 import java.util.Locale
 import java.util.Timer
 import java.util.TimerTask
+import kotlin.concurrent.timer
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -21,6 +22,7 @@ class MainActivity : AppCompatActivity() {
     private var isPlaying = true
     private var isUserChanged = false
     private var isMute = false
+    private lateinit var timer: Timer
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -44,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         binding.txtRight.text = millisToString(mediaPlayer.duration.toLong())
 
         //run this every second
-        val timer = Timer()
+        timer = Timer()
         timer.schedule(
             object : TimerTask() {
                 override fun run() {
@@ -154,5 +156,13 @@ class MainActivity : AppCompatActivity() {
             binding.btnPlayPause.setImageResource(R.drawable.ic_pause)
 
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        timer.cancel()
+        mediaPlayer.release()
+
     }
 }
