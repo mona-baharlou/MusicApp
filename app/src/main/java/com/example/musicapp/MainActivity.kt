@@ -9,6 +9,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.musicapp.databinding.ActivityMainBinding
 import java.util.Locale
+import java.util.Timer
+import java.util.TimerTask
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -35,6 +37,20 @@ class MainActivity : AppCompatActivity() {
         binding.btnPlayPause.setImageResource(R.drawable.ic_pause)
         binding.sliderMain.valueTo = mediaPlayer.duration.toFloat()
         binding.txtRight.text = millisToString(mediaPlayer.duration.toLong())
+
+        //run this every second
+        val timer = Timer()
+        timer.schedule(
+            object : TimerTask() {
+                override fun run() {
+                    runOnUiThread {
+                        binding.txtLeft.text = millisToString(mediaPlayer.currentPosition.toLong())
+                    }
+                }
+
+            }, 1000,
+            1000
+        )
     }
 
     private fun millisToString(duration: Long): String {
