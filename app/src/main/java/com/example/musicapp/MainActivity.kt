@@ -122,7 +122,7 @@ class MainActivity : AppCompatActivity() {
 
         if (isMute) {
 
-            audioManager.adjustVolume(AudioManager.ADJUST_MUTE, AudioManager.FLAG_SHOW_UI)
+            audioManager.adjustVolume(AudioManager.ADJUST_UNMUTE, AudioManager.FLAG_SHOW_UI)
             binding.btnVolumeOnOff.setImageResource(R.drawable.ic_volume_on)
             isMute = false
 
