@@ -44,7 +44,8 @@ class MainActivity : AppCompatActivity() {
             object : TimerTask() {
                 override fun run() {
                     runOnUiThread {
-                        binding.txtLeft.text = millisToString(mediaPlayer.currentPosition.toLong())
+                        // binding.txtLeft.text = millisToString(mediaPlayer.currentPosition.toLong())
+                        binding.sliderMain.value = mediaPlayer.currentPosition.toFloat()
                     }
                 }
 
