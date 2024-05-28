@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.musicapp.databinding.ActivityMainBinding
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -32,6 +33,15 @@ class MainActivity : AppCompatActivity() {
         mediaPlayer.start()
         isPlaying = true
         binding.btnPlayPause.setImageResource(R.drawable.ic_pause)
+        binding.sliderMain.valueTo = mediaPlayer.duration.toFloat()
+        binding.txtRight.text = millisToString(mediaPlayer.duration.toLong())
+    }
+
+    private fun millisToString(duration: Long): String {
+        val second = duration / 1000 % 60
+        val minute = duration / (1000 * 60) % 60
+
+        return java.lang.String.format(Locale.US, "%02d:%02d", minute, second)
 
     }
 
